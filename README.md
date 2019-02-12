@@ -23,8 +23,10 @@ This function uses ggplot to make a surface map to visualize ocean science data.
 
 ### Example
 
+normal plot
+
 ``` r
-plot_map(
+p1 <- plot_map(
     bathymetry = TRUE,
     keep = FALSE,
     lon.min = 112,
@@ -42,4 +44,41 @@ plot_map(
     ## This may take seconds to minutes, depending on grid size
     ## Building bathy matrix ...
 
+``` r
+p1
+```
+
 ![](README_files/figure-markdown_github/example-1.png)
+
+because the result is a ggplot, it can be extendend with additional layers, and the theme can be changed
+
+``` r
+p1 +
+    annotate("text", x = 115, y = 22, label = "some\ntext", size = 4, fontface = "bold") +
+    geom_point(aes(x = c(116, 116.5, 117), y = c(22, 22, 22)), col = "red", size = 4) +
+    theme_dark()
+```
+
+![](README_files/figure-markdown_github/example2-1.png)
+
+plot with bathy object supplied
+
+``` r
+plot_map(
+    bathymetry = marmap::getNOAA.bathy(lon1 = 114, lon2 = 116, lat1 = 18, lat2 = 20, resolution = 1),
+    keep = FALSE,
+    lon.min = 112,
+    lon.max = 118,
+    lat.min = 16,
+    lat.max = 24,
+    lats = seq(22, 17, length.out = 10),
+    lons = seq(114, 116, length.out = 10),
+    values = rnorm(10),
+    value.name = "example [unit]")
+```
+
+    ## Querying NOAA database ...
+    ## This may take seconds to minutes, depending on grid size
+    ## Building bathy matrix ...
+
+![](README_files/figure-markdown_github/example3-1.png)

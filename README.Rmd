@@ -29,8 +29,9 @@ This function uses ggplot to make a surface map to visualize ocean science data.
 *value.name* -- name for the data legend
 
 ### Example
+normal plot
 ```{r example, echo=TRUE}
-plot_map(
+p1 <- plot_map(
     bathymetry = TRUE,
     keep = FALSE,
     lon.min = 112,
@@ -42,4 +43,30 @@ plot_map(
     values = rnorm(10),
     value.name = "example [unit]"
 )
+p1
+```
+
+
+because the result is a ggplot, it can be extendend with additional layers, and the theme can be changed
+```{r example2, echo=TRUE}
+p1 +
+    annotate("text", x = 115, y = 22, label = "some\ntext", size = 4, fontface = "bold") +
+    geom_point(aes(x = c(116, 116.5, 117), y = c(22, 22, 22)), col = "red", size = 4) +
+    theme_dark()
+```
+
+
+plot with bathy object supplied
+```{r example3, echo=TRUE}
+plot_map(
+    bathymetry = marmap::getNOAA.bathy(lon1 = 114, lon2 = 116, lat1 = 18, lat2 = 20, resolution = 1),
+    keep = FALSE,
+    lon.min = 112,
+    lon.max = 118,
+    lat.min = 16,
+    lat.max = 24,
+    lats = seq(22, 17, length.out = 10),
+    lons = seq(114, 116, length.out = 10),
+    values = rnorm(10),
+    value.name = "example [unit]")
 ```
