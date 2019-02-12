@@ -64,7 +64,7 @@ plot_map <- function(
 }
 
 plot_map(
-    bathymetry = TRUE,
+    bathymetry = F,
     keep = FALSE,
     lon.min = 112,
     lon.max = 118,
