@@ -27,7 +27,7 @@ plot_map <- function(
     }
     
     # get data for land map
-    library(mapdata)
+    suppressWarnings(library(mapdata, quietly = TRUE))
     landmap <- ggplot2::map_data('worldHires')
     # reduce the size of the map data for faster plotting. this does not simply remove values outside the lon/lat ranges because that would cut the polygons and mess with the plotting
     regions <- unique(landmap[landmap$long>=lon.min & landmap$long<=lon.max & # find the regions included in the lon/lat ranges
@@ -35,7 +35,7 @@ plot_map <- function(
     landmap <- landmap[landmap$region %in% regions,] # reduce landmap to only keep regions included in the lon/lat ranges
     
     # make the basic map plot
-    library(ggplot2)
+    suppressWarnings(library(ggplot2, quietly = TRUE))
     p1 <- ggplot() +
         coord_map(projection = "mercator", xlim = c(lon.min, lon.max), ylim = c(lat.min, lat.max)) +
         scale_x_continuous(expand = c(0, 0), name = "Longitude °E") +
@@ -62,16 +62,3 @@ plot_map <- function(
     
     return(p1)
 }
-
-plot_map(
-    bathymetry = F,
-    keep = FALSE,
-    lon.min = 112,
-    lon.max = 118,
-    lat.min = 16,
-    lat.max = 24,
-    lats = seq(22, 17, length.out = 10),
-    lons = seq(114, 116, length.out = 10),
-    values = rnorm(10),
-    value.name = "example [unit]"
-)
