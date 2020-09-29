@@ -64,22 +64,6 @@ p1
 
 ![](README_files/figure-gfm/example-1.png)<!-- -->
 
-bounding box not fully supplied
-
-``` r
-p2 <- plot_map(
-    lon.min = -59, 
-    lat.max = -33,
-    lats = seq(-35.5, -37.5, length.out = 10),
-    lons = seq(-56.5, -52, length.out = 10),
-    values = rnorm(10),
-    value.name = "example [unit]"
-)
-p2
-```
-
-![](README_files/figure-gfm/example2-1.png)<!-- -->
-
 because the result is a ggplot, it can be extendend with additional
 layers, and the theme can be changed
 
@@ -115,3 +99,32 @@ plot_map(
     ## Building bathy matrix ...
 
 ![](README_files/figure-gfm/example4-1.png)<!-- -->
+
+bounding box not fully supplied
+
+``` r
+plot_map(
+    lon.min = -59, 
+    lat.max = -33,
+    lats = seq(-35.5, -37.5, length.out = 10),
+    lons = seq(-56.5, -52, length.out = 10),
+    values = rnorm(10),
+    value.name = "example [unit]"
+)
+```
+
+![](README_files/figure-gfm/example2-1.png)<!-- -->
+
+plot with categorical values
+
+``` r
+plot_map(
+    lon.min = -59, 
+    lat.max = -33,
+    lats = seq(-35.5, -37.5, length.out = 10),
+    lons = seq(-56.5, -52, length.out = 10),
+    values = c(rep("cat1", 3), rep("cat2", 7)),
+    value.name = "category")
+```
+
+![](README_files/figure-gfm/example5-1.png)<!-- -->

@@ -64,7 +64,12 @@ plot_map <- function(
     # add data
     p1 <- p1 + 
         geom_point(aes(x = lons, y = lats, color = values)) +
-        scale_color_gradientn(colors = c("blue", "green", "orange", "red"), name = value.name)
+        labs(colour = value.name)
+    
+    if(is.numeric(values)) {
+        p1 <- p1 +
+            scale_color_gradientn(colors = c("blue", "green", "orange", "red"))
+    }
     
     # add land map
     p1 <- p1 + 
