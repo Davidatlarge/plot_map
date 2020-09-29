@@ -16,11 +16,11 @@ This function uses ggplot to make a surface map to visualize ocean science data.
 
 ### Arguments
 
-*bathymetry = TRUE* -- can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
+*bathymetry = FALSE* -- can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
 
-*keep = TRUE* -- keep downloaded bathymetry in the current wd? only relevant with bathymetry=TRUE
+*keep = FALSE* -- keep downloaded bathymetry in the current wd? only relevant with bathymetry=TRUE
 
-*lon.min, lon.max, lat.min, lat.max* -- map limits
+*lon.min, lon.max, lat.min, lat.max* -- map limits, if not supplied the range of lats and lons will be slightly extended
 
 *lats, lons* --  latitude and longitude of data
 
@@ -46,9 +46,22 @@ p1 <- plot_map(
 p1
 ```
 
+bounding box not fully supplied
+```{r example2, echo=TRUE}
+p2 <- plot_map(
+    lon.min = -59, 
+    lat.max = -33,
+    lats = seq(-35.5, -37.5, length.out = 10),
+    lons = seq(-56.5, -52, length.out = 10),
+    values = rnorm(10),
+    value.name = "example [unit]"
+)
+p2
+```
+
 
 because the result is a ggplot, it can be extendend with additional layers, and the theme can be changed
-```{r example2, echo=TRUE}
+```{r example3, echo=TRUE}
 p1 +
     annotate("text", x = 115, y = 22, label = "some\ntext", size = 4, fontface = "bold") +
     geom_point(aes(x = c(116, 116.5, 117), y = c(22, 22, 22)), col = "red", size = 4) +
@@ -57,7 +70,7 @@ p1 +
 
 
 plot with bathy object supplied
-```{r example3, echo=TRUE}
+```{r example4, echo=TRUE}
 plot_map(
     bathymetry = marmap::getNOAA.bathy(lon1 = 114, lon2 = 116, lat1 = 18, lat2 = 20, resolution = 1),
     keep = FALSE,

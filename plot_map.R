@@ -1,41 +1,48 @@
 plot_map <- function(
-    bathymetry = TRUE, # can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
-    keep = TRUE, # keep downloaded bathymetry? only relevant with bathymetry=TRUE
-    lon.min,
-    lon.max,
-    lat.min,
-    lat.max,
+    bathymetry = FALSE, # can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
+    keep = FALSE, # keep downloaded bathymetry? only relevant with bathymetry=TRUE
+    lon.min = NULL,
+    lon.max = NULL,
+    lat.min = NULL,
+    lat.max = NULL,
     lats, # latitude of data
     lons, # longitude of data
     values, # data values
     value.name # name for the data legend
 ) {
+    suppressWarnings(library(mapdata, quietly = TRUE))
+    suppressWarnings(library(ggplot2, quietly = TRUE))
+    
+    # define box
+    extra <- max( mean(abs(diff(lats))), mean(abs(diff(lons))) )
+    if(extra == 0) {extra <- 1} 
+    if(is.null(lon.min)) {lon.min <- min(lons, na.rm = TRUE)-extra}
+    if(is.null(lon.max)) {lon.max <- max(lons, na.rm = TRUE)+extra}
+    if(is.null(lat.min)) {lat.min <- min(lats, na.rm = TRUE)-extra}
+    if(is.null(lat.max)) {lat.max <- max(lats, na.rm = TRUE)+extra}
+    
     # get data for bathymetry if requested
     if(is.logical(bathymetry) && bathymetry == TRUE){
         bath <- marmap::getNOAA.bathy(lon1 = lon.min, lon2 = lon.max, lat1 = lat.min, lat2 = lat.max, resolution = 1, keep = keep)
-        bath <- ggplot2::fortify(bath) # make a df out of bathy so ggplot can fully use the data
+        bath <- fortify(bath) # make a df out of bathy so ggplot can fully use the data
     }
-    
     # use bathymetry data if supplied
     if(class(bathymetry)=="bathy"){
-        bath <- ggplot2::fortify(bathymetry) # make a df out of bathy so ggplot can fully use the data
+        bath <- fortify(bathymetry) # make a df out of bathy so ggplot can fully use the data
     }
-    
     # print warning if bathymetry has been supplied wrong
     if(class(bathymetry)!="bathy" && !is.logical(bathymetry)){
         warning("error in argument 'bathymetry'; must be logical or of class 'bathy'")
     }
     
     # get data for land map
-    suppressWarnings(library(mapdata, quietly = TRUE))
-    landmap <- ggplot2::map_data('worldHires')
+    landmap <- map_data('worldHires')
     # reduce the size of the map data for faster plotting. this does not simply remove values outside the lon/lat ranges because that would cut the polygons and mess with the plotting
     regions <- unique(landmap[landmap$long>=lon.min & landmap$long<=lon.max & # find the regions included in the lon/lat ranges
                                   landmap$lat>=lat.min & landmap$lat<=lat.max,]$region)
     landmap <- landmap[landmap$region %in% regions,] # reduce landmap to only keep regions included in the lon/lat ranges
     
     # make the basic map plot
-    suppressWarnings(library(ggplot2, quietly = TRUE))
     p1 <- ggplot() +
         coord_map(projection = "mercator", xlim = c(lon.min, lon.max), ylim = c(lat.min, lat.max)) +
         scale_x_continuous(expand = c(0, 0), name = "Longitude °E") +
