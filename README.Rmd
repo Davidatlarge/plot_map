@@ -1,7 +1,5 @@
 ---
 title: "plot a surface map for ocean data"
-author: "David Kaiser"
-date: "12 February 2019"
 output: github_document
 ---
 
@@ -24,9 +22,9 @@ This function uses ggplot to make a surface map to visualize ocean science data.
 
 *lats, lons* --  latitude and longitude of data
 
-*values* -- data values
+*values* -- optional, data values
 
-*value.name* -- name for the data legend
+*value.name* -- optional, name for the data legend
 
 ### Example
 normal plot

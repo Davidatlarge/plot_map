@@ -1,7 +1,5 @@
 plot a surface map for ocean data
 ================
-David Kaiser
-12 February 2019
 
 ### Description
 
@@ -26,9 +24,9 @@ range of lats and lons will be slightly extended
 
 *lats, lons* – latitude and longitude of data
 
-*values* – data values
+*values* – optional, data values
 
-*value.name* – name for the data legend
+*value.name* – optional, name for the data legend
 
 ### Example
 

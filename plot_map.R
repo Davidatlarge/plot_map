@@ -1,25 +1,29 @@
 plot_map <- function(
-    bathymetry = FALSE, # can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
-    keep = FALSE, # keep downloaded bathymetry? only relevant with bathymetry=TRUE
+    lats, # latitude of data
+    lons, # longitude of data
     lon.min = NULL,
     lon.max = NULL,
     lat.min = NULL,
     lat.max = NULL,
-    lats, # latitude of data
-    lons, # longitude of data
     values = NULL, # data values
-    value.name = NULL # name for the data legend
+    value.name = NULL, # name for the data legend    
+    bathymetry = FALSE, # can be logical (i.e. should a bathymetry be plotted) or the name of an object of class bathy
+    keep = FALSE # keep downloaded bathymetry? only relevant with bathymetry=TRUE
 ) {
     suppressWarnings(library(mapdata, quietly = TRUE))
     suppressWarnings(library(ggplot2, quietly = TRUE))
     
     # define box
-    extra <- max( mean(abs(diff(lats))), mean(abs(diff(lons))) )
-    if(extra == 0) {extra <- 1} 
-    if(is.null(lon.min)) {lon.min <- min(lons, na.rm = TRUE)-extra}
-    if(is.null(lon.max)) {lon.max <- max(lons, na.rm = TRUE)+extra}
-    if(is.null(lat.min)) {lat.min <- min(lats, na.rm = TRUE)-extra}
-    if(is.null(lat.max)) {lat.max <- max(lats, na.rm = TRUE)+extra}
+    latextra <- abs(diff(range(lats)))/10
+    lonextra <- abs(diff(range(lons)))/10
+    if(latextra == 0) {latextra <- lonextra}
+    if(lonextra == 0) {lonextra <- latextra}
+    if(lonextra == 0 && latextra == 0) {lonextra <- 1
+    latextra <- 1}
+    if(is.null(lon.min)) {lon.min <- min(lons, na.rm = TRUE)-lonextra}
+    if(is.null(lon.max)) {lon.max <- max(lons, na.rm = TRUE)+lonextra}
+    if(is.null(lat.min)) {lat.min <- min(lats, na.rm = TRUE)-latextra}
+    if(is.null(lat.max)) {lat.max <- max(lats, na.rm = TRUE)+latextra}
     
     # get data for bathymetry if requested
     if(is.logical(bathymetry) && bathymetry == TRUE){
