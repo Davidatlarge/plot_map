@@ -7,8 +7,8 @@ plot_map <- function(
     lat.max = NULL,
     lats, # latitude of data
     lons, # longitude of data
-    values, # data values
-    value.name # name for the data legend
+    values = NULL, # data values
+    value.name = NULL # name for the data legend
 ) {
     suppressWarnings(library(mapdata, quietly = TRUE))
     suppressWarnings(library(ggplot2, quietly = TRUE))
