@@ -14,8 +14,8 @@ plot_map <- function(
     suppressWarnings(library(ggplot2, quietly = TRUE))
     
     # define box
-    latextra <- abs(diff(range(lats)))/10
-    lonextra <- abs(diff(range(lons)))/10
+    latextra <- abs(diff(range(lats, na.rm = TRUE)))/10
+    lonextra <- abs(diff(range(lons, na.rm = TRUE)))/10
     if(latextra == 0) {latextra <- lonextra}
     if(lonextra == 0) {lonextra <- latextra}
     if(lonextra == 0 && latextra == 0) {lonextra <- 1
@@ -49,8 +49,8 @@ plot_map <- function(
     # make the basic map plot
     p1 <- ggplot() +
         coord_map(projection = "mercator", xlim = c(lon.min, lon.max), ylim = c(lat.min, lat.max)) +
-        scale_x_continuous(expand = c(0, 0), name = "Longitude °E") +
-        scale_y_continuous(expand = c(0, 0), name = "Latitude °N") +
+        scale_x_continuous(expand = c(0, 0), name = "Longitude") +
+        scale_y_continuous(expand = c(0, 0), name = "Latitude") +
         theme_bw()
     
     # add bathymetry if requested or supplied
