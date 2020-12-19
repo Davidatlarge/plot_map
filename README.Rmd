@@ -44,7 +44,7 @@ p1 <- plot_map(
 p1
 ```
 
-because the result is a ggplot, it can be extendend with additional layers, and the theme can be changed
+because the result is a ggplot, it can be extended with additional layers, and the theme can be changed
 ```{r example3, echo=TRUE}
 p1 +
     annotate("text", x = 115, y = 22, label = "some\ntext", size = 4, fontface = "bold") +
@@ -88,4 +88,15 @@ plot_map(
     lons = seq(-56.5, -52, length.out = 10),
     values = c(rep("cat1", 3), rep("cat2", 7)),
     value.name = "category")
+```
+
+the function can also be used to make an empty
+```{r example6, echo=TRUE}
+p1 <- plot_map(lon.min = -5, lon.max = 15, lat.min = 50, lat.max = 60)
+p1
+```
+
+... which can then be filled with data 
+```{r example7, echo=TRUE}
+p1 + geom_point(aes(seq(2, 9, length.out = 10), seq(52, 58, length.out = 10), col = rnorm(10)))
 ```

@@ -64,7 +64,7 @@ p1
 
 ![](README_files/figure-gfm/example-1.png)<!-- -->
 
-because the result is a ggplot, it can be extendend with additional
+because the result is a ggplot, it can be extended with additional
 layers, and the theme can be changed
 
 ``` r
@@ -128,3 +128,20 @@ plot_map(
 ```
 
 ![](README_files/figure-gfm/example5-1.png)<!-- -->
+
+the function can also be used to make an empty
+
+``` r
+p1 <- plot_map(lon.min = -5, lon.max = 15, lat.min = 50, lat.max = 60)
+p1
+```
+
+![](README_files/figure-gfm/example6-1.png)<!-- -->
+
+… which can then be filled with data
+
+``` r
+p1 + geom_point(aes(seq(2, 9, length.out = 10), seq(52, 58, length.out = 10), col = rnorm(10)))
+```
+
+![](README_files/figure-gfm/example7-1.png)<!-- -->
